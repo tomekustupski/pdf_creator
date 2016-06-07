@@ -13,17 +13,5 @@ def html_doc(variables):
     )
 
 def create(albumData):
-  pdf = create_pdf(pdf_data)
+  pdf = create_pdf(html_doc(albumData))
   return pdf
-
-pdf_data = html_doc({
-  'photos': [
-    'https://s3.eu-central-1.amazonaws.com/153412-kkanclerz/photos/009d30b3d9a143a5937fbab9a50a4009/empty_image.jpg',
-    'https://s3.eu-central-1.amazonaws.com/153412-kkanclerz/photos/009d30b3d9a143a5937fbab9a50a4009/empty_image.jpg'
-   ]
-})
-pdf = create_pdf(pdf_data)
-
-file_ = open('album.pdf', 'w')
-file_.write(pdf.getvalue())
-file_.close()
