@@ -1,26 +1,23 @@
-from pdf import create_pdf
-from jinja2 import Environment, FileSystemLoader
-import os
+import boto3, json, time
+from uuid import uuid4
+from creator import create
 
-# Capture our current directory
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+s3 = boto3.resource('s3')
+def upload_s3(source_file, filename):
+  bucket_name = '153412-kkanclerz'
+  destination_filename = "albums/%s/%s" % (uuid4().hex, filename)
+  bucket = s3.Bucket(bucket_name)
+  bucket.put_object(Key=destination_filename, Body=source_file)
 
-def html_doc(variables):
-    # Create the jinja2 environment. Notice the use of trim_blocks, which greatly helps control whitespace.
-    j2_env = Environment(loader=FileSystemLoader(THIS_DIR), trim_blocks=True)
-    return j2_env.get_template('album.html.j2').render(
-        variables=variables
-    )
+sqs = boto3.resource('sqs')
+albumRequests = sqs.get_queue_by_name(QueueName='kanclerj-album')
 
-
-pdf_data = html_doc({
-  'photos': [
-    'https://s3.eu-central-1.amazonaws.com/153412-kkanclerz/photos/009d30b3d9a143a5937fbab9a50a4009/empty_image.jpg',
-    'https://s3.eu-central-1.amazonaws.com/153412-kkanclerz/photos/009d30b3d9a143a5937fbab9a50a4009/empty_image.jpg'
-   ]
-})
-pdf = create_pdf(pdf_data)
-
-file_ = open('album.pdf', 'w')
-file_.write(pdf.getvalue())
-file_.close()
+while True:
+  for albumRequest in albumRequests.receive_messages():
+    print('processing request ..........')
+    albumData = json.loads(albumRequest.body)
+    pdf = create(albumData)
+    upload_s3(pdf.getvalue(), 'album.pdf')
+    albumRequest.delete()
+    print('request processing finished [X]')
+  time.sleep(1)
