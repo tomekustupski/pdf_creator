@@ -17,7 +17,6 @@ while True:
   for albumRequest in albumRequests.receive_messages():
     print('processing request ..........')
     albumData = json.loads(albumRequest.body)
-    print albumData
     pdf = create(albumData)
     upload_s3(pdf.getvalue(), 'album.pdf')
     albumRequest.delete()
