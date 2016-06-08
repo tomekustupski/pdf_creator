@@ -1,8 +1,13 @@
 <html>
+	<head>
+	</head>
 	<body>
-           <h1>My album</h1>
+	   <ul class="list-group">
            {% for photo in variables.photos %}
-             <img src="{{ photo }}"/>
+	    <li class="list-group-item">
+             <img src="{{ photo }}" class="img-circle" height="500" />
+            </li>
 	   {% endfor %}
+           </ul>
 	</body>
 </html>
