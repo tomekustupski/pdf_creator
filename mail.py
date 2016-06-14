@@ -36,4 +36,4 @@ def send_email(to, subject, body):
     return response
 
 
-print send_email('jakub.kanclerz@gmail.com', 'test', 'test')
+print send_email('tomekustupski@gmail.com', 'test', 'test')
