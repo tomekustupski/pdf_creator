@@ -1,71 +1,13 @@
 <html>
-<head>
-  <link href="/normalize.css" rel="stylesheet">
-  <style>
-    header {
-      text-align: center;
-      background: url('http://tomekustupski.pl/wp-content/uploads/2016/06/bg.png');
-      background-size: cover;
-      color: white;
-    }
-    a {
-      color: white;
-    }
-    h1 {
-      font-size: 40px;
-    }
-    img {
-      margin: 40px 0px 0px 0px;
-      border-radius: 20px;
-    }
-    .abc {
-      padding: 10px;
-      background: rgba(0,0,0,0.5);
-    }
-    li {
-      display: inline;
-      padding: 0px 10px 0px 10px;
-    }
-    article {
-      max-width: 500px;
-      padding: 20px;
-      margin: 0 auto;
-    }
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 36px;
-        padding: 5px;
-      }
-      li {
-        padding: 5px;
-        display: block;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="http://tomekustupski.pl/wp-content/uploads/2016/06/inoka.png">
-<ul class="abc">
-      <li><button onclick="myFunction()">Contact</button></li>
-  
-    </ul>
-  </header>
-
-	<ul>
+	<head>
+	</head>
+	<body>
+	   <ul class="list-group">
            {% for photo in variables.photos %}
-	    <li>
+	    <li class="list-group-item">
              <img src="{{ photo }}" class="img-circle" height="500" />
             </li>
 	   {% endfor %}
            </ul>
-
-<script>
-function myFunction() {
-    alert("tomekustupski@gmail.com");
-}
-</script>
-
-</body>
-
+	</body>
 </html>
